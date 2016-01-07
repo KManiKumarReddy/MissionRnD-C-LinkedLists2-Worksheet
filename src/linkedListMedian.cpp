@@ -20,5 +20,21 @@ struct node {
 };
 
 int linkedListMedian(struct node *head) {
-	return -1;
+	// handling excepions
+	if (!head)
+		return -1;
+	// taking two pointers for traversal, one moves twice as fast as other
+	struct node *traverseOnce = head, *traverseTwice = head;
+	int count = 1;
+	while (traverseTwice->next) {
+		count++;
+		traverseTwice = traverseTwice->next;
+		if (traverseTwice->next) {
+			count++;
+			traverseTwice = traverseTwice->next;
+			traverseOnce = traverseOnce->next;
+		}
+	}
+	// if even number of items, returning mean of 2 middle elements
+	return count & 1 ? traverseOnce->num : (traverseOnce->num + traverseOnce->next->num) / 2;
 }
